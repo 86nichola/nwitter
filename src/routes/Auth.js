@@ -1,59 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import AuthForm from "../components/AuthForm";
 import { authService, firebaseInstance } from "../fbase";
 
 const Auth = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const [input, setInput] = useState({
-    email: "",
-    password: "",
-  });
-  const { email, password } = input;
-
-  const [newAccount, setNewAccount] = useState(true);
-  const [error, setError] = useState("");
-
-  const onChange = (event) => {
-    const {
-      target: { name, value },
-    } = event;
-    /*
-    if (name == "email") {
-      setEmail(value);
-    } else if (name === "password") {
-      setPassword(value);
-    }
-    */
-    setInput({
-      ...input,
-      [name]: value,
-    });
-  };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      let data;
-      if (newAccount) {
-        // create newAccount
-        data = await authService.createUserWithEmailAndPassword(
-          email,
-          password
-        );
-      } else {
-        // log in
-        data = await authService.signInWithEmailAndPassword(email, password);
-      }
-      console.log(data);
-    } catch (error) {
-      debugger;
-      console.log(error);
-      setError(error.message);
-    }
-  };
-
-  const toggleAccount = () => setNewAccount((prev) => !prev);
-
   const onSocialClick = async (event) => {
     const {
       target: { name },
@@ -66,38 +15,12 @@ const Auth = () => {
     }
 
     const data = await authService.signInWithPopup(provider);
-    console.log(data);
   };
 
   return (
     <>
+      <AuthForm />
       <div>
-        <form onSubmit={onSubmit}>
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            required
-            value={email}
-            onChange={onChange}
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            required
-            value={password}
-            onChange={onChange}
-          />
-          <input
-            type="submit"
-            value={newAccount ? "Create Account" : "Log In"}
-          />
-          {error}
-        </form>
-        <span onClick={toggleAccount}>
-          {newAccount ? "Sign In" : "Create Account"}
-        </span>
         <button onClick={onSocialClick} name="google">
           Continue with Google
         </button>

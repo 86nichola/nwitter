@@ -36,7 +36,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "myApp",
-      template: "./src/index.html", // DOM element를 추가하기 위해 설정
+      template: "./public/index.html", // DOM element를 추가하기 위해 설정
     }),
     new dotenv({
       path: ".env",

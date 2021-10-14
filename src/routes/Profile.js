@@ -39,7 +39,6 @@ const Profile = ({ userObj, refreshUser }) => {
       .get();
 
     setNweets((prev) => [...prev, ...myNweets.docs.map((doc) => doc.data())]);
-    //console.log(myNweets.docs.map((doc) => doc.data()));
   };
 
   useEffect(() => {
