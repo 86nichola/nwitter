@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WebpackCdnPlugin = require("webpack-cdn-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const dotenv = require("dotenv-webpack");
@@ -19,8 +20,11 @@ module.exports = {
     index: "./src/index.js",
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    clean: {
+      keep: /ignored\/dir\//, // 애셋을 'ignored/dir' 아래에 유지합니다.
+    },
+    path: path.resolve(__dirname, "build"),
+    filename: "[name].[chunkhash].js",
   },
   module: {
     rules: [
@@ -31,6 +35,11 @@ module.exports = {
           loader: "babel-loader", // babel loader가 파이프를 통해 js 코드를 불러옴
         },
       },
+      {
+        test: /\.css/i,
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   plugins: [
@@ -40,6 +49,15 @@ module.exports = {
     }),
     new dotenv({
       path: ".env",
+    }),
+    new WebpackCdnPlugin({
+      modules: [
+        {
+          name: "reset-min",
+          var: "Reset-min",
+          path: "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css",
+        },
+      ],
     }),
   ],
 };

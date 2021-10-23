@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { authService, dbService } from "../fbase";
 import Nweet from "components/Nweet";
 
-const Profile = ({ userObj, refreshUser }) => {
+const Profile = ({ userObj, refreshUser, clearUser }) => {
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.newDisplayName);
 
@@ -13,6 +13,7 @@ const Profile = ({ userObj, refreshUser }) => {
   const onLogOutClick = () => {
     authService.signOut();
     history.push("/");
+    clearUser();
   };
 
   const onChange = (event) => {
@@ -43,6 +44,9 @@ const Profile = ({ userObj, refreshUser }) => {
 
   useEffect(() => {
     getMyNweets();
+    return () => {
+      console.log("call Profile cleanUp");
+    };
   }, []);
   /*
    */

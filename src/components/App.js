@@ -33,11 +33,15 @@ function App() {
     });
   };
 
+  const clearUser = () => {
+    setUserObj(null);
+  };
   return (
     <>
       {init ? (
         <AppRouter
           refreshUser={refreshUser}
+          clearUser={clearUser}
           isLoggedIn={Boolean(userObj)}
           userObj={userObj}
         />
