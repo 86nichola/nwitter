@@ -9,6 +9,7 @@ const Home = ({ userObj }) => {
   useEffect(() => {
     const unSubscribe = dbService
       .collection("nweets")
+      .orderBy("createAt", "desc")
       .onSnapshot((snapshot) => {
         const newArray = snapshot.docs.map((document) => ({
           id: document.id,
@@ -24,9 +25,9 @@ const Home = ({ userObj }) => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <NweetFactory userObj={userObj} />
-      <div>
+      <div style={{ marginTop: 30 }}>
         {nweets.map((nweet) => (
           <Nweet
             key={nweet.id}
@@ -35,7 +36,7 @@ const Home = ({ userObj }) => {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
