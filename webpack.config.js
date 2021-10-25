@@ -24,6 +24,7 @@ module.exports = {
       keep: /ignored\/dir\//, // 애셋을 'ignored/dir' 아래에 유지합니다.
     },
     path: path.resolve(__dirname, "build"),
+    publicPath: "/nwitter/",
     filename: "[name].[chunkhash].js",
   },
   module: {

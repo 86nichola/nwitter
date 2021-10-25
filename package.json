@@ -1,5 +1,5 @@
 {
-  "homepage": "https://86nichola.github.io/nnwitter",
+  "homepage": "https://86nichola.github.io/nwitter",
   "name": "nwitter",
   "version": "1.0.0",
   "description": "",
@@ -15,13 +15,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/86nichola/nnwitter.git"
+    "url": "git+https://github.com/86nichola/nwitter.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/86nichola/nnwitter/issues"
+    "url": "https://github.com/86nichola/nwitter/issues"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
