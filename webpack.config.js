@@ -4,6 +4,9 @@ const path = require("path");
 const webpack = require("webpack");
 const dotenv = require("dotenv-webpack");
 
+//path
+const ASSET_PATH = process.env.ASSET_PATH || "/";
+
 module.exports = {
   mode: "development",
   resolve: {
@@ -14,6 +17,9 @@ module.exports = {
     },
   },
   devServer: {
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
     open: true,
   },
   entry: {
@@ -24,7 +30,7 @@ module.exports = {
       keep: /ignored\/dir\//, // 애셋을 'ignored/dir' 아래에 유지합니다.
     },
     path: path.resolve(__dirname, "build"),
-    publicPath: "/nwitter/",
+    publicPath: ASSET_PATH,
     filename: "[name].[chunkhash].js",
   },
   module: {
