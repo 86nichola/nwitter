@@ -8,13 +8,20 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 const Navigation = ({ userObj }) => {
   return (
     <nav>
-      <ul style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
-        <li>
+      <ul
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 50,
+          paddingLeft: 0,
+        }}
+      >
+        <li style={{ listStyle: "none" }}>
           <Link to="/" style={{ marginRight: 10 }}>
             <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x" />
           </Link>
         </li>
-        <li>
+        <li style={{ listStyle: "none" }}>
           <Link
             to="/profile"
             style={{
