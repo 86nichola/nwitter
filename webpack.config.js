@@ -52,15 +52,6 @@ module.exports = (env) => {
       new dotenv({
         path: ".env",
       }),
-      new WebpackCdnPlugin({
-        modules: [
-          {
-            name: "reset-min",
-            var: "Reset-min",
-            path: "https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css",
-          },
-        ],
-      }),
     ],
   };
 };

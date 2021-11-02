@@ -13,15 +13,14 @@ const Navigation = ({ userObj }) => {
           display: "flex",
           justifyContent: "center",
           marginTop: 50,
-          paddingLeft: 0,
         }}
       >
-        <li style={{ listStyle: "none" }}>
+        <li>
           <Link to="/" style={{ marginRight: 10 }}>
             <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x" />
           </Link>
         </li>
-        <li style={{ listStyle: "none" }}>
+        <li>
           <Link
             to="/profile"
             style={{
