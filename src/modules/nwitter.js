@@ -4,21 +4,36 @@ const REMOVE = "nwitter/REMOVE";
 const UPDATE = "nwitter/UPDATE";
 
 /* 액션 생성함수 만들기 */
-export const addNew = (nweet, attachmentUrl, userObj) => ({
-  type: NEW,
-  userObj,
-  nweet,
-  attachmentUrl,
-});
-export const remove = (userObj) => ({ type: REMOVE, userObj });
-export const update = (newNweet, userObj) => ({
-  type: UPDATE,
-  userObj,
-  newNweet,
-});
+// export const addNew = (nweet, attachmentUrl, userObj) => ({
+//   type: NEW,
+//   userObj,
+//   nweet,
+//   attachmentUrl,
+// });
+// export const remove = (userObj) => ({ type: REMOVE, userObj });
+// export const update = (newNweet, userObj) => ({
+//   type: UPDATE,
+//   userObj,
+//   newNweet,
+// });
+
+/* 초기상태선언 */
+const initialState = {
+  userObj: {},
+  nweets: [
+    /*
+    {
+      text: "",
+      createdAt: Date.now(),
+      creatorId: "",
+      attachmentUrl: "",
+    }
+    */
+  ],
+};
 
 /* 리듀서 만들기*/
-const nwitter = (state, action) => {
+export default function nwitter(state = initialState, action) {
   switch (action.type) {
     case UPDATE:
       return {
@@ -37,4 +52,4 @@ const nwitter = (state, action) => {
     default:
       return state;
   }
-};
+}

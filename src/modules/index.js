@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
-
-const rootReducer = combineReducers({});
+import nwitter from "./nwitter";
+const rootReducer = combineReducers({
+  nwitter,
+});
 
 export default rootReducer;
