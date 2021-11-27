@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import AppRouter from "components/Router";
 import { authService } from "../fbase";
-///Users/master/myLab/nwitter/src/components/Router.js
 
 function App() {
   const [init, setInit] = useState(false);
@@ -14,7 +13,7 @@ function App() {
       if (user) {
         setUserObj({
           uid: user.uid,
-          displayName: user.displayName,
+          displayName: user.displayName || `ID${user.uid.substring(0, 8)}`,
           updateProfile: (args) => user.updateProfile(args),
         });
       } else {

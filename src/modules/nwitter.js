@@ -1,5 +1,5 @@
 /* 액션 타입 만들기 */
-const NEW = "nwitter/NEW";
+//const NEW = "nwitter/NEW";
 const REMOVE = "nwitter/REMOVE";
 const UPDATE = "nwitter/UPDATE";
 
@@ -10,26 +10,17 @@ const UPDATE = "nwitter/UPDATE";
 //   nweet,
 //   attachmentUrl,
 // });
-// export const remove = (userObj) => ({ type: REMOVE, userObj });
-// export const update = (newNweet, userObj) => ({
-//   type: UPDATE,
-//   userObj,
-//   newNweet,
-// });
+export const remove = (nweetObj) => ({ type: REMOVE, nweetObj });
+export const update = (newNweet, userObj) => ({
+  type: UPDATE,
+  userObj,
+  newNweet,
+});
 
 /* 초기상태선언 */
 const initialState = {
   userObj: {},
-  nweets: [
-    /*
-    {
-      text: "",
-      createdAt: Date.now(),
-      creatorId: "",
-      attachmentUrl: "",
-    }
-    */
-  ],
+  text: "",
 };
 
 /* 리듀서 만들기*/
@@ -37,18 +28,15 @@ export default function nwitter(state = initialState, action) {
   switch (action.type) {
     case UPDATE:
       return {
-        documentKey: `nweets/${action.userObj.id}`,
+        ...state,
         text: action.newNweet,
-      };
-    case NEW:
-      return {
-        text: action.nweet,
-        createdAt: Date.now(),
-        creatorId: action.userObj.uid,
-        attachmentUrl: action.attachmentUrl,
+        userObj: action.userObj,
       };
     case REMOVE:
-      return { documentKey: `nweets/${action.nweetObj.id}` };
+      return {
+        ...state,
+        userObj: action.userObj,
+      };
     default:
       return state;
   }
