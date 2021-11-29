@@ -1,45 +1,37 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import AppRouter from "components/Router";
 import { authService } from "../fbase";
+import { getAuth } from "../modules/auth";
 
 function App() {
   const [init, setInit] = useState(false);
 
-  const [userObj, setUserObj] = useState(null);
+  //const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
-    authService.onAuthStateChanged((user) => {
-      if (user) {
-        setUserObj({
-          uid: user.uid,
-          displayName: user.displayName || `ID${user.uid.substring(0, 8)}`,
-          updateProfile: (args) => user.updateProfile(args),
-        });
-      } else {
-        setUserObj(false);
-      }
-      setInit(true);
-    });
+    getAuth();
+    setInit(true);
   }, []);
 
   const refreshUser = () => {
     const user = authService.currentUser;
-    setUserObj({
-      uid: user.uid,
-      displayName: user.displayName,
-      updateProfile: (args) => user.updateProfile(args),
-    });
+    // setUserObj({
+    //   uid: user.uid,
+    //   displayName: user.displayName,
+    //   updateProfile: (args) => user.updateProfile(args),
+    // });
   };
+
+  const { userObj } = useSelector((state) => ({
+    userObj: state.userObj,
+  }));
 
   return (
     <>
       {init ? (
-        <AppRouter
-          refreshUser={refreshUser}
-          isLoggedIn={Boolean(userObj)}
-          userObj={userObj}
-        />
+        <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(userObj)} />
       ) : (
         "initializing..."
       )}

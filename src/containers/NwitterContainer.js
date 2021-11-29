@@ -1,16 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Nweet from "components/Nweet";
-import { remove, update } from "../modules/nwitter";
+import { remove, update, removeAsync } from "../modules/nwitter";
 
 function NwitterContainer({ nweet }) {
   const { userObj } = useSelector((state) => ({
     userObj: state.nwitter.userObj,
   }));
-
+  console.log(userObj);
   const dispatch = useDispatch();
 
-  const onDeleteClick = (nweetObj) => (nweetObj) => dispatch(remove(nweetObj));
+  const onDeleteClick = (nweetObj) => removeAsync(nweetObj);
   const onSubmit = (newNweet, userObj) => dispatch(update(newNweet, userObj));
 
   /*
@@ -32,6 +32,7 @@ function NwitterContainer({ nweet }) {
       key={nweet.id}
       nweetObj={nweet}
       isOwner={nweet.creatorId === userObj.uid}
+      onDeleteClick={onDeleteClick}
     />
   );
 }
