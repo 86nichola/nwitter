@@ -7,12 +7,21 @@ import { getAuth } from "../modules/auth";
 
 function App() {
   const [init, setInit] = useState(false);
-
-  //const [userObj, setUserObj] = useState(null);
+  const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
-    getAuth();
-    setInit(true);
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        setUserObj({
+          uid: user.uid,
+          displayName: user.displayName,
+          updateProfile: (args) => user.updateProfile(args),
+        });
+      } else {
+        setUserObj(false);
+      }
+      setInit(true);
+    });
   }, []);
 
   const refreshUser = () => {
@@ -24,14 +33,15 @@ function App() {
     // });
   };
 
-  const { userObj } = useSelector((state) => ({
-    userObj: state.userObj,
-  }));
-
+  debugger;
   return (
     <>
       {init ? (
-        <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(userObj)} />
+        <AppRouter
+          refreshUser={refreshUser}
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+        />
       ) : (
         "initializing..."
       )}

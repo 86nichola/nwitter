@@ -12,17 +12,20 @@ export const deleteNweet = async (nweetObj) => {
 };
 
 export const getAuthChange = () => {
-  const [userObj, setUserObj] = useState(null);
+  const userObj = null;
+  const init = false;
   authService.onAuthStateChanged((user) => {
+    debugger;
     if (user) {
-      setUserObj({
+      userObj = {
         uid: user.uid,
         displayName: user.displayName || `ID${user.uid.substring(0, 8)}`,
         updateProfile: (args) => user.updateProfile(args),
-      });
+      };
     } else {
-      setUserObj(false);
+      userObj = false;
     }
+    init = true;
   });
-  return userObj;
+  return { userObj, init: init };
 };
