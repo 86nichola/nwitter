@@ -46,7 +46,7 @@ const Nweet = ({ nweetObj, isOwner, onDeleteClick }) => {
               onChange={onChange}
               value={newNweet}
               required
-              placeholder="Edit your nweet"
+              placeholder="Edit your comment"
               autoFocus
               className="formInput"
             />

@@ -5,8 +5,9 @@ import { remove, update, removeAsync } from "../modules/nwitter";
 
 function NwitterContainer({ nweet }) {
   const { userObj } = useSelector((state) => ({
-    userObj: state.nwitter.userObj,
+    userObj: state.auth.userObj,
   }));
+  debugger;
   console.log(userObj);
   const dispatch = useDispatch();
 

@@ -3,22 +3,25 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AppRouter from "components/Router";
 import { authService } from "../fbase";
-import { getAuth } from "../modules/auth";
+import { setAuth } from "../modules/auth";
 
 function App() {
   const [init, setInit] = useState(false);
-  const [userObj, setUserObj] = useState(null);
+  // const [userObj, setUserObj] = useState(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setUserObj({
-          uid: user.uid,
-          displayName: user.displayName,
-          updateProfile: (args) => user.updateProfile(args),
-        });
+        dispatch(setAuth(user));
+        // setUserObj({
+        //   uid: user.uid,
+        //   displayName: user.displayName,
+        //   updateProfile: (args) => user.updateProfile(args),
+        // });
       } else {
-        setUserObj(false);
+        //setUserObj(false);
       }
       setInit(true);
     });
@@ -32,6 +35,10 @@ function App() {
     //   updateProfile: (args) => user.updateProfile(args),
     // });
   };
+
+  const { userObj } = useSelector((state) => ({
+    userObj: state.auth.userObj,
+  }));
 
   debugger;
   return (

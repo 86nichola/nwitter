@@ -68,13 +68,13 @@ const NweetFactory = ({ userObj }) => {
           value={nweet}
           onChange={onChange}
           type="text"
-          placeholder="What's on your mind"
+          placeholder="구매내역을 공유하세요"
           maxLength={120}
         ></input>
-        <input type="submit" value="Nweet" />
+        <input type="submit" value="입력하기" />
       </div>
       <label htmlFor="attach-file" className="factoryInput__label">
-        <span>Add phtos</span>
+        <span>추가하기</span>
         <FontAwesomeIcon icon={faPlus} />
       </label>
       <input
