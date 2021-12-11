@@ -2,6 +2,8 @@ import * as nweetApi from "../api/nweetsApi";
 
 /* 액션 타입 만들기 */
 const NEW = "nwitter/NEW";
+const NEW_SUCCESS = "nwitter/NEW_SUCCESS";
+const NEW_ERROR = "nwitter/NEW_ERROR";
 const REMOVE = "nwitter/REMOVE";
 const REMOVE_SUCCESS = "nwitter/REMOVE_SUCCESS";
 const REMOVE_ERROR = "nwitter/REMOVE_ERROR";
@@ -23,12 +25,16 @@ export const update = (newNweet, userObj) => ({
 });
 
 /* thunk */
-export const removeAsync = (nweetObj) => async (dispatch) => {
-  // request
-  const removeKey = dispatch(remove(nweetObj));
+export const removeAsync = (nweetObj) => (dispatch, getState) => {
   try {
+    nweetApi.deleteNweet(
+      dispatch({
+        type: REMOVE,
+        id: nweetObj.id,
+        attachmentUrl: nweetObj.attachmentUrl,
+      })
+    );
     //success
-    const callDelete = await nweetApi.deleteNweet(removeKey);
     dispatch({ type: REMOVE_SUCCESS });
   } catch (e) {
     //error
@@ -36,17 +42,28 @@ export const removeAsync = (nweetObj) => async (dispatch) => {
   }
 };
 
-export const addNewAsync = (nweet, attachmentUrl, userObj) => (dispatch) => {
-  dispatch(addNew({ nweet, attachmentUrl, userObj }));
-};
+export const addNewAsync =
+  ({ nweet, attachmentUrl, userObj }) =>
+  (dispatch) => {
+    try {
+      nweetApi.createNweet(dispatch(addNew({ userObj, nweet, attachmentUrl })));
+      //success
+      dispatch({ type: NEW_SUCCESS });
+    } catch (e) {
+      //error
+      dispatch({ type: NEW_ERROR, error: e });
+    }
+  };
 
 /* 초기상태선언 */
 const initialState = {
-  userObj: {},
-  text: "",
-  nweets: {
-    error: null,
-    data: null,
+  nweetObj: {
+    text: "",
+    id: "",
+    createdAt: null,
+    creatorId: "",
+    creatorName: "",
+    attachmentUrl: "",
   },
 };
 
@@ -56,8 +73,10 @@ export default function nwitter(state = initialState, action) {
     case NEW:
       return {
         ...state,
-        userObj: action.userObj,
-        nweet: action.nweet,
+        text: action.nweet,
+        createdAt: Date.now(),
+        creatorId: action.userObj.uid,
+        creatorName: action.userObj.displayName,
         attachmentUrl: action.attachmentUrl,
       };
     case UPDATE:
@@ -65,16 +84,17 @@ export default function nwitter(state = initialState, action) {
         ...state,
         text: action.newNweet,
         userObj: action.userObj,
+        nweet: action.nweet,
       };
     case REMOVE:
       return {
         ...state,
-        userObj: action.userObj,
+        nweetObj: action.nweetObj,
       };
     case REMOVE_SUCCESS:
-      return { ...state, nweets: { data: true, error: null } };
+      return { ...state };
     case REMOVE_ERROR:
-      return { ...state, nweets: { data: false, error: action.error } };
+      return { ...state, error: action.error };
     default:
       return state;
   }

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "../fbase";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const NweetFactory = ({ userObj }) => {
+const NweetFactory = ({ userObj, addNewAsync }) => {
   const [nweet, setNweet] = useState("");
   const [attachment, setAttachment] = useState("");
-
+  const dispatch = useDispatch();
   const onClearAttachment = () => setAttachment("");
 
   const onSubmit = async (event) => {
@@ -24,13 +25,23 @@ const NweetFactory = ({ userObj }) => {
       const response = await attachmentRef.putString(attachment, "data_url");
       attachmentUrl = await response.ref.getDownloadURL();
     }
+    debugger;
+
+    dispatch(
+      addNewAsync({
+        nweet,
+        userObj,
+        attachmentUrl,
+      })
+    );
+    /*
     await dbService.collection("nweets").add({
       text: nweet,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       creatorName: userObj.displayName,
       attachmentUrl,
-    });
+    });*/
     setNweet("");
     setAttachment("");
   };

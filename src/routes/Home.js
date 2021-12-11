@@ -5,7 +5,7 @@ import NweetFactory from "components/NweetFactory";
 import NweetFactoryContainer from "../containers/NweetFactoryContainer";
 import NwitterContainer from "../containers/NwitterContainer";
 
-const Home = ({ userObj }) => {
+const Home = () => {
   const [nweets, setNweets] = useState([]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Home = ({ userObj }) => {
       unSubscribe();
     };
   }, []);
-
+  console.log(nweets);
   return (
     <div className="container">
       <NweetFactoryContainer />

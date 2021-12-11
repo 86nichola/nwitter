@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 
-const Navigation = ({ userObj }) => {
+const Navigation = () => {
+  const { userObj } = useSelector((state) => ({
+    userObj: state.auth.userObj,
+  }));
   return (
     <nav>
       <ul

@@ -7,51 +7,35 @@ import { setAuth } from "../modules/auth";
 
 function App() {
   const [init, setInit] = useState(false);
-  // const [userObj, setUserObj] = useState(null);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
         dispatch(setAuth(user));
-        // setUserObj({
-        //   uid: user.uid,
-        //   displayName: user.displayName,
-        //   updateProfile: (args) => user.updateProfile(args),
-        // });
-      } else {
-        //setUserObj(false);
       }
       setInit(true);
     });
   }, []);
 
-  const refreshUser = () => {
-    const user = authService.currentUser;
-    // setUserObj({
-    //   uid: user.uid,
-    //   displayName: user.displayName,
-    //   updateProfile: (args) => user.updateProfile(args),
-    // });
-  };
-
-  const { userObj } = useSelector((state) => ({
-    userObj: state.auth.userObj,
-  }));
-
-  debugger;
   return (
     <>
-      {init ? (
-        <AppRouter
-          refreshUser={refreshUser}
-          isLoggedIn={Boolean(userObj)}
-          userObj={userObj}
-        />
-      ) : (
-        "initializing..."
-      )}
+      <div
+        id="top"
+        style={{
+          maxWidth: 890,
+          width: "100%",
+          height: "auto",
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        ===========================================================================================================================여기에
+        div 있어여. 채워주세요 dispaly:flex / justifyContent:center
+        ===========================================================================================================================
+      </div>
+      {init ? <AppRouter /> : "initializing..."}
     </>
   );
 }

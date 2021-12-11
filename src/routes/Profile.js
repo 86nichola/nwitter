@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { authService, dbService } from "../fbase";
-import Nweet from "components/Nweet";
+import NwitterContainer from "../containers/NwitterContainer";
+import { useSelector, useDispatch } from "react-redux";
 
-const Profile = ({ userObj, refreshUser }) => {
+const Profile = () => {
+  // hook, redux
   const history = useHistory();
-  const [newDisplayName, setNewDisplayName] = useState(userObj.newDisplayName);
+  const dispatch = useDispatch();
+  const { userObj } = useSelector((state) => ({
+    userObj: state.auth.userObj,
+  }));
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    dispatch(setAuth(user));
+  };
 
-  // custom
+  // local
+  const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const [nweets, setNweets] = useState([]);
 
   const onLogOutClick = () => {
@@ -30,25 +40,29 @@ const Profile = ({ userObj, refreshUser }) => {
     }
   };
 
-  // custom
-  const getMyNweets = async () => {
-    const myNweets = await dbService
+  const getMyNweets = () => {
+    return dbService
       .collection("nweets")
       .where("creatorId", "==", userObj.uid)
-      .orderBy("createdAt", "asc")
-      .get();
-
-    setNweets((prev) => [...prev, ...myNweets.docs.map((doc) => doc.data())]);
+      .orderBy("createdAt", "desc")
+      .onSnapshot((snapshot) => {
+        const newArray = snapshot.docs.map((document) => ({
+          id: document.id,
+          ...document.data(),
+        }));
+        setNweets(newArray);
+      });
   };
 
   useEffect(() => {
-    getMyNweets();
+    const unSubscribe = getMyNweets();
+
     return () => {
       console.log("call Profile cleanUp");
+      unSubscribe();
     };
   }, []);
-  /*
-   */
+
   return (
     <div className="container">
       <form onSubmit={onSubmit} className="profileForm">
@@ -66,19 +80,19 @@ const Profile = ({ userObj, refreshUser }) => {
           className="formBtn"
           style={{ marginTop: 10 }}
         />
+        <span
+          className="formBtn cancelBtn logOut"
+          onClick={onLogOutClick}
+          style={{ marginTop: 10 }}
+        >
+          LogOut
+        </span>
       </form>
-      <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
-        LogOut
-      </span>
 
       {
-        /**/ <div>
+        <div style={{ marginTop: 30 }}>
           {nweets.map((nweet, idx) => (
-            <Nweet
-              key={idx}
-              nweetObj={nweet}
-              isOwner={nweet.creatorId === userObj.uid}
-            />
+            <NwitterContainer key={idx} nweet={nweet} />
           ))}
         </div>
       }

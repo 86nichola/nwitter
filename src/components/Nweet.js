@@ -1,23 +1,12 @@
 import React, { useState } from "react";
 import { dbService, storageService } from "../fbase";
-
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Nweet = ({ nweetObj, isOwner, onDeleteClick }) => {
   const [editing, setEditing] = useState(false);
   const [newNweet, setNewNweet] = useState(nweetObj.text);
-
-  // const onDeleteClick = async () => {
-  //   const ok = window.confirm("삭제하시겠습니까?");
-
-  //   if (ok) {
-  //     await dbService.doc(`nweets/${nweetObj.id}`).delete();
-  //     if (nweetObj.attachmentUrl !== "") {
-  //       await storageService.refFromURL(nweetObj.attachmentUrl).delete();
-  //     }
-  //   }
-  // };
 
   const toggleEditing = () => {
     setEditing((prev) => !prev);
@@ -58,6 +47,7 @@ const Nweet = ({ nweetObj, isOwner, onDeleteClick }) => {
         </>
       ) : (
         <>
+          <h3>{nweetObj.creatorName ? nweetObj.creatorName : ""}</h3>
           <h4>{nweetObj.text}</h4>
           {nweetObj.attachmentUrl && (
             <img src={nweetObj.attachmentUrl} width="50" height="50" />

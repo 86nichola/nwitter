@@ -1,15 +1,20 @@
 import React from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-//import Auth from "routes/Auth";
+import { useSelector, useDispatch } from "react-redux";
 import Auth from "routes/Auth";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Navigation from "./Navigation";
 
-const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
+const AppRouter = () => {
+  const { userObj } = useSelector((state) => ({
+    userObj: state.auth.userObj,
+  }));
+  const isLoggedIn = Boolean(userObj);
+
   return (
     <Router>
-      {isLoggedIn && <Navigation userObj={userObj} />}
+      {isLoggedIn && <Navigation />}
       <Switch>
         <>
           {isLoggedIn ? (
@@ -24,10 +29,10 @@ const AppRouter = ({ isLoggedIn, userObj, refreshUser }) => {
               }}
             >
               <Route exact path="/">
-                <Home userObj={userObj} />
+                <Home />
               </Route>
               <Route exact path="/profile">
-                <Profile refreshUser={refreshUser} userObj={userObj} />
+                <Profile />
               </Route>
             </div>
           ) : (
