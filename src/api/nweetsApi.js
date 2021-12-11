@@ -23,6 +23,13 @@ export const createNweet = async ({ userObj, attachmentUrl, nweet }) => {
   });
 };
 
+export const updateNweet = async ({ userObj, nweetObj, newNweet }) => {
+  debugger;
+  await dbService
+    .doc(`nweets/${nweetObj.id}`)
+    .update({ text: newNweet, creatorName: userObj.displayName });
+};
+
 // export const getAuthChange = () => {
 //   const userObj = null;
 //   const init = false;

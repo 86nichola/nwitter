@@ -9,6 +9,8 @@ const REMOVE_SUCCESS = "nwitter/REMOVE_SUCCESS";
 const REMOVE_ERROR = "nwitter/REMOVE_ERROR";
 
 const UPDATE = "nwitter/UPDATE";
+const UPDATE_SUCCESS = "nwitter/UPDATE_SUCCESS";
+const UPDATE_ERROR = "nwitter/UPDATE_ERROR";
 
 /* 액션 생성함수 만들기 */
 export const addNew = ({ nweet, attachmentUrl, userObj }) => ({
@@ -18,10 +20,11 @@ export const addNew = ({ nweet, attachmentUrl, userObj }) => ({
   attachmentUrl,
 });
 export const remove = (nweetObj) => ({ type: REMOVE, nweetObj });
-export const update = (newNweet, userObj) => ({
+export const update = ({ userObj, newNweet, nweetObj }) => ({
   type: UPDATE,
-  userObj,
+  nweetObj,
   newNweet,
+  userObj,
 });
 
 /* thunk */
@@ -55,6 +58,20 @@ export const addNewAsync =
     }
   };
 
+export const updateAsync =
+  ({ userObj, nweetObj, newNweet }) =>
+  (dispatch) => {
+    try {
+      debugger;
+      nweetApi.updateNweet(dispatch(update({ userObj, nweetObj, newNweet })));
+      //success
+      dispatch({ type: UPDATE_SUCCESS });
+    } catch (e) {
+      //error
+      dispatch({ type: UPDATE_ERROR, error: e });
+    }
+  };
+
 /* 초기상태선언 */
 const initialState = {
   nweetObj: {
@@ -65,6 +82,7 @@ const initialState = {
     creatorName: "",
     attachmentUrl: "",
   },
+  error: null,
 };
 
 /* 리듀서 만들기*/
@@ -84,8 +102,12 @@ export default function nwitter(state = initialState, action) {
         ...state,
         text: action.newNweet,
         userObj: action.userObj,
-        nweet: action.nweet,
+        nweetObj: action.nweetObj,
       };
+    case UPDATE_SUCCESS:
+      return { ...state };
+    case UPDATE_ERROR:
+      return { ...state, error: action.error };
     case REMOVE:
       return {
         ...state,
