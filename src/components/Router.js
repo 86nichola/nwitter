@@ -7,10 +7,11 @@ import Profile from "routes/Profile";
 import Navigation from "./Navigation";
 
 const AppRouter = () => {
-  const { userObj } = useSelector((state) => ({
+  const { userObj, init } = useSelector((state) => ({
     userObj: state.auth.userObj,
+    init: state.auth.init,
   }));
-  const isLoggedIn = Boolean(userObj);
+  const isLoggedIn = Boolean(init);
 
   return (
     <Router>
