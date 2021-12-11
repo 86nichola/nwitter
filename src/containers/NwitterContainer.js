@@ -11,14 +11,14 @@ function NwitterContainer({ nweet }) {
   const dispatch = useDispatch();
   // nweet값 thunk로 전달하기..
   const onDeleteClick = () => dispatch(removeAsync(nweet));
-  const callUpdate = ({ userObj, nweetObj, newNweet }) =>
-    dispatch(updateAsync({ userObj, nweetObj, newNweet }));
+  const callUpdate = ({ nweetObj, newNweet }) => {
+    dispatch(updateAsync({ nweetObj, newNweet }));
+  };
 
   return (
     <Nweet
       key={nweet.id}
       nweetObj={nweet}
-      userObj={userObj}
       isOwner={nweet.creatorId === userObj.uid}
       onDeleteClick={onDeleteClick}
       callUpdate={callUpdate}

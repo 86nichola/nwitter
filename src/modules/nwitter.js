@@ -46,8 +46,9 @@ export const removeAsync = (nweetObj) => (dispatch, getState) => {
 };
 
 export const addNewAsync =
-  ({ nweet, attachmentUrl, userObj }) =>
-  (dispatch) => {
+  ({ nweet, attachmentUrl }) =>
+  (dispatch, getState) => {
+    const userObj = getState().auth.userObj;
     try {
       nweetApi.createNweet(dispatch(addNew({ userObj, nweet, attachmentUrl })));
       //success
@@ -59,8 +60,9 @@ export const addNewAsync =
   };
 
 export const updateAsync =
-  ({ userObj, nweetObj, newNweet }) =>
-  (dispatch) => {
+  ({ nweetObj, newNweet }) =>
+  (dispatch, getState) => {
+    const userObj = getState().auth.userObj;
     try {
       debugger;
       nweetApi.updateNweet(dispatch(update({ userObj, nweetObj, newNweet })));
@@ -101,7 +103,6 @@ export default function nwitter(state = initialState, action) {
       return {
         ...state,
         text: action.newNweet,
-        userObj: action.userObj,
         nweetObj: action.nweetObj,
       };
     case UPDATE_SUCCESS:

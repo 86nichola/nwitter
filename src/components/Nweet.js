@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Nweet = ({ userObj, nweetObj, isOwner, onDeleteClick, callUpdate }) => {
+const Nweet = ({ nweetObj, isOwner, onDeleteClick, callUpdate }) => {
   const [editing, setEditing] = useState(false);
   const [newNweet, setNewNweet] = useState(nweetObj.text);
 
@@ -22,7 +22,7 @@ const Nweet = ({ userObj, nweetObj, isOwner, onDeleteClick, callUpdate }) => {
   const onSubmit = (event) => {
     event.preventDefault();
     debugger;
-    callUpdate({ userObj, nweetObj, newNweet });
+    callUpdate({ nweetObj, newNweet });
     //await dbService.doc(`nweets/${nweetObj.id}`).update({ text: newNweet });
     setEditing(false);
   };

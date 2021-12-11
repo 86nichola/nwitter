@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "../fbase";
-import { useSelector, useDispatch } from "react-redux";
+/*import { useSelector, useDispatch } from "react-redux";*/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const NweetFactory = ({ userObj, addNewAsync }) => {
+const NweetFactory = ({ userObj, callAddNew }) => {
   const [nweet, setNweet] = useState("");
   const [attachment, setAttachment] = useState("");
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const onClearAttachment = () => setAttachment("");
 
   const onSubmit = async (event) => {
@@ -26,14 +26,14 @@ const NweetFactory = ({ userObj, addNewAsync }) => {
       attachmentUrl = await response.ref.getDownloadURL();
     }
     debugger;
-
-    dispatch(
-      addNewAsync({
-        nweet,
-        userObj,
-        attachmentUrl,
-      })
-    );
+    callAddNew({ nweet, attachmentUrl });
+    // dispatch(
+    //   addNewAsync({
+    //     nweet,
+    //     userObj,
+    //     attachmentUrl,
+    //   })
+    // );
     /*
     await dbService.collection("nweets").add({
       text: nweet,
