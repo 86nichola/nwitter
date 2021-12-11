@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { authService, dbService } from "../fbase";
 import NwitterContainer from "../containers/NwitterContainer";
 import { useSelector, useDispatch } from "react-redux";
+import { offAuth, setAuth } from "../modules/auth";
 
 const Profile = () => {
   // hook, redux
@@ -21,7 +22,9 @@ const Profile = () => {
   const [nweets, setNweets] = useState([]);
 
   const onLogOutClick = () => {
+    debugger;
     authService.signOut();
+    dispatch(offAuth());
     history.push("/");
   };
 
