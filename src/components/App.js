@@ -18,25 +18,6 @@ function App() {
     });
   }, []);
 
-  return (
-    <>
-      <div
-        id="top"
-        style={{
-          maxWidth: 890,
-          width: "100%",
-          height: "auto",
-          margin: "0 auto",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        ===========================================================================================================================여기에
-        div 있어여. 채워주세요 dispaly:flex / justifyContent:center
-        ===========================================================================================================================
-      </div>
-      {init ? <AppRouter /> : "initializing..."}
-    </>
-  );
+  return <>{init ? <AppRouter /> : "initializing..."}</>;
 }
 export default App;

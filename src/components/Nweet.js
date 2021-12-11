@@ -51,7 +51,12 @@ const Nweet = ({ nweetObj, isOwner, onDeleteClick, callUpdate }) => {
           <h3>{nweetObj.creatorName ? nweetObj.creatorName : ""}</h3>
           <h4>{nweetObj.text}</h4>
           {nweetObj.attachmentUrl && (
-            <img src={nweetObj.attachmentUrl} width="50" height="50" />
+            <>
+              <img src={nweetObj.attachmentUrl} width="50" height="50" />
+              <a href={nweetObj.attachmentUrl} target="_blank">
+                새탭보기
+              </a>
+            </>
           )}
           {isOwner && (
             <div className="nweet__actions">
